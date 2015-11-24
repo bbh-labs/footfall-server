@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='UTF-8' />
+	<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+	<link rel='stylesheet' href='flex.css' />
+	<link rel='stylesheet' href='style.css' />
+</head>
+<body>
+	<div id='masthead' class='flex column'>
+		<h1>Footfall</h1>
+		<h3 id='day'></h3>
+	</div>
+
+	<div id='canvas-container'></div>
+
+	<div id='stats' class='flex row justify-between'>
+		<div class='outer flex'>
+			<div class='inner flex column'>
+				<h2 class='title'>POPULAR HOUR</h2>
+				<div id='popular-hours' class='content cyan'></div>
+				<h2 class='title'>UNPOPULAR HOUR</h2>
+				<div id='unpopular-hours' class='content red'></div>
+			</div>
+		</div>
+		<div class='outer flex'>
+			<div class='inner flex column'>
+				<h2 class='title'>TOTAL VISITS</h2>
+				<div class='flex even content align-center justify-center margin'>
+					<h1 id='total-visits' class='flex align-center justify-center'></h1>
+				</div>
+			</div>
+		</div>
+		<div class='outer flex'>
+			<div class='inner flex column'>
+				<h2 class='title'>CURRENT VISITORS</h2>
+				<div class='flex even content align-center justify-center margin'>
+					<h1 id='current-visitors' class='flex align-center justify-center'></h1>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src='jquery.min.js'></script>
+	<script src='p5.js'></script>
+	<script src='app.js'></script>
+</body>
+</html>
