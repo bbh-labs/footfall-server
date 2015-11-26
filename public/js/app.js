@@ -397,11 +397,10 @@ function fetchTimeline(direction) {
 
 		// Update day element if necessary
 		timelineDateElement.innerHTML = date.toDateString();
-		simpleDateElement.innerHTML = date.toGMTString();
+		simpleDateElement.innerHTML = date.toDateString() + " " + new Date().toTimeString();
 
 		// Redraw
 		if (state == 'simple') {
-			console.log('simple');
 			drawSimple();
 		} else if (state == 'timeline') {
 			drawTimeline();
