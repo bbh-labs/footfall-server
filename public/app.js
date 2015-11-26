@@ -198,7 +198,6 @@ function fetchTimeline(direction) {
 		data: { type: 'timeline', year: date.year, month: date.month, day: date.day },
 		dataType: 'json',
 	}).done(function(data_) {
-		date = new Date(date.year, date.month, date.day);
 		dateIndex = tmpIndex;
 
 		// Convert data to a time-specific format
@@ -345,18 +344,11 @@ function fetchTimeline(direction) {
 		// Update stepY
 		stepY = maxPPH > 0 ? TIMELINE_HEIGHT * 0.8 / maxPPH : 0;
 
+		// Get JavaScript Date
+		date = new Date(date.year, date.month - 1, date.day);
+
 		// Update day element if necessary
-		var day;
-		switch (date.getDay()) {
-		case 0: day = 'Sunday'; break;
-		case 1: day = 'Monday'; break;
-		case 2: day = 'Tuesday'; break;
-		case 3: day = 'Wednesday'; break;
-		case 4: day = 'Thursday'; break;
-		case 5: day = 'Friday'; break;
-		case 6: day = 'Saturday'; break;
-		}
-		dayElement.innerHTML = day;
+		dayElement.innerHTML = date.toDateString();
 
 		// Redraw
 		drawTimeline();
