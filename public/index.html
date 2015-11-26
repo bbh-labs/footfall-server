@@ -7,14 +7,16 @@
 	<link rel='stylesheet' href='css/style.css' />
 </head>
 <body>
-	<div id='simple' class='flex one align-center justify-center'>
+	<div id='simple' class='flex column one align-center justify-center'>
+		<h5 id='simple-date'></h5>
+		<h3>Traffic</h3>
 		<h1 id='business'></h1>
 	</div>
 
 	<div id='timeline'>
 		<div id='masthead' class='flex column'>
 			<h1>Footfall</h1>
-			<h3 id='day'></h3>
+			<h3 id='timeline-date'></h3>
 		</div>
 
 		<div id='canvas-container'></div>
@@ -22,9 +24,9 @@
 		<div id='stats' class='flex row justify-between'>
 			<div class='outer flex'>
 				<div class='inner flex column'>
-					<h2 class='title'>POPULAR HOUR</h2>
+					<h2 class='title'>PEAK HOUR</h2>
 					<div id='popular-hours' class='content cyan'></div>
-					<h2 class='title'>UNPOPULAR HOUR</h2>
+					<h2 class='title'>OFF-PEAK HOUR</h2>
 					<div id='unpopular-hours' class='content red'></div>
 				</div>
 			</div>

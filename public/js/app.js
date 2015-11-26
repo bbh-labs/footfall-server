@@ -26,13 +26,14 @@ var stepX,
 
 // HTML elements
 var simpleElement,
+    simpleDateElement,
     timelineElement,
     businessElement,
     popularHoursElement,
     unpopularHoursElement,
     totalVisitsElement,
     currentVisitorsElement,
-    dayElement;
+    timelineDateElement;
 
 function setup() {
 	var canvas = createCanvas(windowWidth, 260);
@@ -42,13 +43,14 @@ function setup() {
 	textAlign(CENTER);
 
 	simpleElement = document.getElementById('simple');
+	simpleDateElement = document.getElementById('simple-date');
 	timelineElement = document.getElementById('timeline');
 	businessElement = document.getElementById('business');
 	popularHoursElement = document.getElementById('popular-hours');
 	unpopularHoursElement = document.getElementById('unpopular-hours');
 	totalVisitsElement = document.getElementById('total-visits');
 	currentVisitorsElement = document.getElementById('current-visitors');
-	dayElement = document.getElementById('day');
+	timelineDateElement = document.getElementById('timeline-date');
 
 	fetchDates();
 
@@ -80,19 +82,19 @@ function drawSimple() {
 
 	if (business <= 0.2) {
 		simpleElement.style.background = '#00ff00';
-		businessElement.innerHTML = 'Quiet';
+		businessElement.innerHTML = 'Very Low';
 	} else if (business <= 0.4) {
 		simpleElement.style.background = '#80ff00';
-		businessElement.innerHTML = 'Below Average';
+		businessElement.innerHTML = 'Low';
 	} else if (business <= 0.6) {
 		simpleElement.style.background = '#ffff00';
-		businessElement.innerHTML = 'Average';
+		businessElement.innerHTML = 'Medium';
 	} else if (business <= 0.8) {
 		simpleElement.style.background = '#ff8000';
-		businessElement.innerHTML = 'Above Average';
+		businessElement.innerHTML = 'High';
 	} else if (business <= 1) {
 		simpleElement.style.background = '#ff0000';
-		businessElement.innerHTML = 'Busy';
+		businessElement.innerHTML = 'Very High';
 	}
 }
 
@@ -394,7 +396,8 @@ function fetchTimeline(direction) {
 		date = new Date(date.year, date.month - 1, date.day);
 
 		// Update day element if necessary
-		dayElement.innerHTML = date.toDateString();
+		timelineDateElement.innerHTML = date.toDateString();
+		simpleDateElement.innerHTML = date.toGMTString();
 
 		// Redraw
 		if (state == 'simple') {
