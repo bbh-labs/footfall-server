@@ -1,5 +1,7 @@
 var TIMELINE_HEIGHT = 200;
 
+var state = 'simple';
+
 // Data
 var PPM, // People per minute
     PPH, // People per hour
@@ -23,7 +25,10 @@ var stepX,
     bShouldRedraw = false;
 
 // HTML elements
-var popularHoursElement,
+var simpleElement,
+    timelineElement,
+    businessElement,
+    popularHoursElement,
     unpopularHoursElement,
     totalVisitsElement,
     currentVisitorsElement,
@@ -36,6 +41,9 @@ function setup() {
 	stroke(245);
 	textAlign(CENTER);
 
+	simpleElement = document.getElementById('simple');
+	timelineElement = document.getElementById('timeline');
+	businessElement = document.getElementById('business');
 	popularHoursElement = document.getElementById('popular-hours');
 	unpopularHoursElement = document.getElementById('unpopular-hours');
 	totalVisitsElement = document.getElementById('total-visits');
@@ -52,10 +60,46 @@ function windowResized() {
 	stroke(245);
 	textAlign(CENTER);
 
-	drawTimeline();
+	if (state == 'simple') {
+		drawSimple();
+	} else if (state == 'timeline') {
+		drawTimeline();
+	}
+}
+
+function drawSimple() {
+	simpleElement.style.opacity = 1;
+	timelineElement.style.opacity = 0;
+
+	if (typeof(PPH) == 'undefined') {
+		return;
+	}
+
+	var now = new Date();
+	var business = maxPPH > 0 ? PPH[now.getHours()] / maxPPH : 0;
+
+	if (business <= 0.2) {
+		simpleElement.style.background = '#00ff00';
+		businessElement.innerHTML = 'Quiet';
+	} else if (business <= 0.4) {
+		simpleElement.style.background = '#80ff00';
+		businessElement.innerHTML = 'Below Average';
+	} else if (business <= 0.6) {
+		simpleElement.style.background = '#ffff00';
+		businessElement.innerHTML = 'Average';
+	} else if (business <= 0.8) {
+		simpleElement.style.background = '#ff8000';
+		businessElement.innerHTML = 'Above Average';
+	} else if (business <= 1) {
+		simpleElement.style.background = '#ff0000';
+		businessElement.innerHTML = 'Busy';
+	}
 }
 
 function drawTimeline() {
+	simpleElement.style.opacity = 0;
+	timelineElement.style.opacity = 1;
+
 	if (typeof(PPM) != 'object') {
 		return;
 	}
@@ -179,6 +223,7 @@ function fetchDates() {
 
 function fetchTimeline(direction) {
 	if (dates.length == 0) {
+		console.log('No dates');
 		return;
 	}
 
@@ -304,6 +349,7 @@ function fetchTimeline(direction) {
 					unpopularHours.push(range);
 				}
 			}
+
 			var minHoursPPH = 99999999, minHoursPPHRange;
 			for (var i = 0; i < unpopularHours.length; i++) {
 				var hours = unpopularHours[i];
@@ -351,7 +397,12 @@ function fetchTimeline(direction) {
 		dayElement.innerHTML = date.toDateString();
 
 		// Redraw
-		drawTimeline();
+		if (state == 'simple') {
+			console.log('simple');
+			drawSimple();
+		} else if (state == 'timeline') {
+			drawTimeline();
+		}
 
 		fetchTimelineID = setTimeout(fetchTimeline, 60000);
 	}).fail(function(response) {
@@ -380,5 +431,15 @@ function keyReleased() {
 
 	if (keyCode == RIGHT_ARROW) {
 		fetchTimeline(1);
+	}
+
+	if (keyCode == TAB) {
+		if (state == 'timeline') {
+			state = 'simple';
+			drawSimple();
+		} else {
+			state = 'timeline';
+			drawTimeline();
+		}
 	}
 }
