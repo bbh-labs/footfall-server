@@ -152,12 +152,14 @@ func (_ dataHandler) GET(w http.ResponseWriter, r *http.Request) {
 
 func (_ dataHandler) POST(w http.ResponseWriter, r *http.Request) {
 	enters++
+	w.WriteHeader(http.StatusOK)
 }
 
 func (_ dataHandler) DELETE(w http.ResponseWriter, r *http.Request) {
 	if exits > 0 {
 		exits--
 	}
+	w.WriteHeader(http.StatusOK)
 }
 
 func updateCurrentMinuteData() {
