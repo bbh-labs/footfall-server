@@ -7,16 +7,14 @@
 	<link rel='stylesheet' href='css/style.css' />
 </head>
 <body>
-	<div id='simple' class='flex column one align-center justify-center'>
-		<h5 id='simple-date'></h5>
-		<h3>Traffic</h3>
-		<h1 id='business'></h1>
-	</div>
-
 	<div id='timeline'>
 		<div id='masthead' class='flex column'>
 			<h1>Footfall</h1>
-			<h3 id='timeline-date'></h3>
+			<div class='flex one column'>
+				<h3 id='timeline-date' class='flex justify-center one'></h3>
+				<h3 id='timeline-time' class='flex justify-center one'></h3>
+				<div class='flex justify-end one'>Traffic:&nbsp;<strong><span id='traffic'>LOW</span></strong></div>
+			</div>
 		</div>
 
 		<div id='canvas-container'></div>

@@ -71,6 +71,24 @@
 	align-items: flex-end;
 }
 
+.flex.self-start {
+	-webkit-align-items: flex-start;
+	-ms-align-items: flex-start;
+	align-items: flex-start;
+}
+
+.flex.self-center {
+	-webkit-align-items: center;
+	-ms-align-items: center;
+	align-items: center;
+}
+
+.flex.self-end {
+	-webkit-align-items: flex-end;
+	-ms-align-items: flex-end;
+	align-items: flex-end;
+}
+
 .flex.align-baseline {
 	-webkit-align-items: baseline;
 	-ms-align-items: baseline;

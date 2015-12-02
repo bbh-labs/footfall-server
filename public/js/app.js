@@ -1,7 +1,5 @@
 var TIMELINE_HEIGHT = 200;
 
-var state = 'simple';
-
 // Data
 var PPM, // People per minute
     PPH, // People per hour
@@ -26,17 +24,16 @@ var stepX,
     bShouldRedraw = false;
 
 // HTML elements
-var simpleElement,
-    simpleDateElement,
-    timelineElement,
-    businessElement,
+var timelineElement,
+    trafficElement,
     popularHoursElement,
     unpopularHoursElement,
     totalVisitsElement,
     currentVisitorsElement,
     enterCountElement,
     exitCountElement,
-    timelineDateElement;
+    timelineDateElement,
+    timelineTimeElement;
 
 function setup() {
 	var canvas = createCanvas(windowWidth, 260);
@@ -45,10 +42,8 @@ function setup() {
 	stroke(245);
 	textAlign(CENTER);
 
-	simpleElement = document.getElementById('simple');
-	simpleDateElement = document.getElementById('simple-date');
 	timelineElement = document.getElementById('timeline');
-	businessElement = document.getElementById('business');
+	trafficElement = document.getElementById('traffic');
 	popularHoursElement = document.getElementById('popular-hours');
 	unpopularHoursElement = document.getElementById('unpopular-hours');
 	totalVisitsElement = document.getElementById('total-visits');
@@ -56,11 +51,13 @@ function setup() {
 	enterCountElement = document.getElementById('enter-count');
 	exitCountElement = document.getElementById('exit-count');
 	timelineDateElement = document.getElementById('timeline-date');
+	timelineTimeElement = document.getElementById('timeline-time');
 
 	fetchDates();
 	fetchCurrent();
 
 	noLoop();
+	tick();
 }
 
 function windowResized() {
@@ -68,44 +65,10 @@ function windowResized() {
 	stroke(245);
 	textAlign(CENTER);
 
-	if (state == 'simple') {
-		drawSimple();
-	} else if (state == 'timeline') {
-		drawTimeline();
-	}
-}
-
-function drawSimple() {
-	simpleElement.style.opacity = 1;
-	timelineElement.style.opacity = 0;
-
-	if (typeof(PPH) == 'undefined') {
-		return;
-	}
-
-	var now = new Date();
-	var business = maxPPH > 0 ? PPH[now.getHours()] / maxPPH : 0;
-
-	if (business <= 0.2) {
-		simpleElement.style.background = '#00ff00';
-		businessElement.innerHTML = 'Very Low';
-	} else if (business <= 0.4) {
-		simpleElement.style.background = '#80ff00';
-		businessElement.innerHTML = 'Low';
-	} else if (business <= 0.6) {
-		simpleElement.style.background = '#ffff00';
-		businessElement.innerHTML = 'Medium';
-	} else if (business <= 0.8) {
-		simpleElement.style.background = '#ff8000';
-		businessElement.innerHTML = 'High';
-	} else if (business <= 1) {
-		simpleElement.style.background = '#ff0000';
-		businessElement.innerHTML = 'Very High';
-	}
+	drawTimeline();
 }
 
 function drawTimeline() {
-	simpleElement.style.opacity = 0;
 	timelineElement.style.opacity = 1;
 
 	if (typeof(PPM) != 'object') {
@@ -402,14 +365,29 @@ function fetchTimeline(direction) {
 
 		// Update day element if necessary
 		timelineDateElement.innerHTML = date.toDateString();
-		simpleDateElement.innerHTML = date.toDateString() + " " + new Date().toTimeString();
+
+		// Update traffic
+		var now = new Date();
+		var traffic = maxPPH > 0 ? PPH[now.getHours()] / maxPPH : 0;
+		if (traffic <= 0.2) {
+			trafficElement.style.color = '#00ff00';
+			trafficElement.innerHTML = 'Very Low';
+		} else if (traffic <= 0.4) {
+			trafficElement.style.color = '#80ff00';
+			trafficElement.innerHTML = 'Low';
+		} else if (traffic <= 0.6) {
+			trafficElement.style.color = '#ffff00';
+			trafficElement.innerHTML = 'Medium';
+		} else if (traffic <= 0.8) {
+			trafficElement.style.color = '#ff8000';
+			trafficElement.innerHTML = 'High';
+		} else if (traffic <= 1) {
+			trafficElement.style.color = '#ff0000';
+			trafficElement.innerHTML = 'Very High';
+		}
 
 		// Redraw
-		if (state == 'simple') {
-			drawSimple();
-		} else if (state == 'timeline') {
-			drawTimeline();
-		}
+		drawTimeline();
 
 		fetchTimelineID = setTimeout(fetchTimeline, 60000);
 	}).fail(function(response) {
@@ -447,14 +425,12 @@ function keyReleased() {
 	if (keyCode == RIGHT_ARROW) {
 		fetchTimeline(1);
 	}
+}
 
-	if (keyCode == TAB) {
-		if (state == 'timeline') {
-			state = 'simple';
-			drawSimple();
-		} else {
-			state = 'timeline';
-			drawTimeline();
-		}
-	}
+function tick() {
+	var now = new Date();
+	var hours = now.getHours();
+	var minutes = now.getMinutes();
+	timelineTimeElement.innerHTML = (hours >= 10 ? hours : '0' + hours) + ':' + (minutes >= 10 ? minutes : '0' + minutes);
+	setTimeout(tick, 1000);
 }
