@@ -210,9 +210,8 @@ function mouseMoved() {
 
 function fetchDates() {
 	$.ajax({
-		url: '/data',
+		url: '/dates',
 		method: 'GET',
-		data: { type: 'dates' },
 		dataType: 'json',
 	}).done(function(dates_) {
 		dates = dates_;
@@ -245,9 +244,9 @@ function fetchTimeline(direction) {
 
 	var date = dates[tmpIndex];
 	$.ajax({
-		url: '/data',
+		url: '/timeline',
 		method: 'GET',
-		data: { type: 'timeline', year: date.year, month: date.month, day: date.day },
+		data: { year: date.year, month: date.month, day: date.day },
 		dataType: 'json',
 	}).done(function(data_) {
 		data = data_;
@@ -422,7 +421,7 @@ function fetchTimeline(direction) {
 
 function fetchCurrent() {
 	$.ajax({
-		url: '/data',
+		url: '/visit',
 		method: 'GET',
 		dataType: 'json',
 	}).done(function(data) {
