@@ -33,6 +33,8 @@ var simpleElement,
     unpopularHoursElement,
     totalVisitsElement,
     currentVisitorsElement,
+    enterCountElement,
+    exitCountElement,
     timelineDateElement;
 
 function setup() {
@@ -50,9 +52,12 @@ function setup() {
 	unpopularHoursElement = document.getElementById('unpopular-hours');
 	totalVisitsElement = document.getElementById('total-visits');
 	currentVisitorsElement = document.getElementById('current-visitors');
+	enterCountElement = document.getElementById('enter-count');
+	exitCountElement = document.getElementById('exit-count');
 	timelineDateElement = document.getElementById('timeline-date');
 
 	fetchDates();
+	fetchCurrent();
 
 	noLoop();
 }
@@ -420,7 +425,15 @@ function fetchCurrent() {
 	}).done(function(data) {
 		currentVisitors = Math.max(data.enters - data.exits, 0);
 		currentVisitorsElement.innerHTML = currentVisitors;
-		fetchCurrentID = window.setTimeout(fetchCurrent, 33);
+		enterCountElement.innerHTML = data.enters;
+		exitCountElement.innerHTML = data.exits;
+		if (data.enters == 0) {
+			data.enters = 1;
+		}
+		enterCountElement.style.width = '100%';
+		currentVisitorsElement.style.width = Math.min(currentVisitors / data.enters, 1) * enterCountElement.offsetWidth + 'px';
+		exitCountElement.style.width = Math.min(data.exits / data.enters, 1) * enterCountElement.offsetWidth + 'px';
+		fetchCurrentID = window.setTimeout(fetchCurrent, 1000);
 	}).fail(function(response) {
 		fetchCurrentID = window.setTimeout(fetchCurrent, 1000);
 	});
