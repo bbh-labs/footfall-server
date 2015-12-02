@@ -42,7 +42,7 @@ func updateCurrentMinuteData() {
 	data[minuteOfDay][1] = exits
 
 	// Save data
-	saveJSON(path.Join("data", toDataFilename(time.Now())), data)
+	saveJSON(path.Join("data", toDataFilename(time.Now().Add(8 * time.Hour))), data)
 	log.Println("Saved data for minute", minuteOfDay)
 
 	if minuteOfDay == minutesPerDay-1 {
