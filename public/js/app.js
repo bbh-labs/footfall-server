@@ -131,7 +131,7 @@ function drawTimeline() {
 	// Legend
 	fill(50);
 	textSize(12);
-	var legendText = 'Number of people inside the store';
+	var legendText = 'Rate of people entering the store';
 	var legendWidth = textWidth(legendText);
 	textAlign(LEFT);
 	text(legendText, windowWidth * 0.475 - legendWidth - 10, 22);
@@ -258,13 +258,11 @@ function fetchTimeline(direction) {
 		// Convert data to a time-specific format
 		PPM = [];
 		for (var i in data_) {
-			var count = 0, previous = 0, current = 0;
+			var count = 0;
 			if (i == 0) {
-				count = Math.max(data_[i][0] - data_[i][1], 0);
+				count = Math.max(data_[i][0], 0);
 			} else {
-				previous = data_[i - 1][0] - data_[i - 1][1];
-				current = data_[i][0] - data_[i][1];
-				count = Math.max(current - previous, 0);
+				count = Math.max(data_[i][0] - data_[i - 1][0], 0);
 			}
 			PPM[i] = count;
 		}
