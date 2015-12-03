@@ -214,12 +214,11 @@ function fetchDates() {
 		data: { type: 'dates' },
 		dataType: 'json',
 	}).done(function(dates_) {
-		console.log('Loaded dates');
-
 		dates = dates_;
-		if (dates.length == 0) {
+		if (!dates || dates.length == 0) {
 			return;
 		}
+		console.log('Loaded dates');
 
 		dateIndex = 0;
 		fetchTimeline();
