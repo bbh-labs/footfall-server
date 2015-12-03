@@ -156,9 +156,7 @@ func (_ dataHandler) POST(w http.ResponseWriter, r *http.Request) {
 }
 
 func (_ dataHandler) DELETE(w http.ResponseWriter, r *http.Request) {
-	if exits > 0 {
-		exits--
-	}
+	exits++
 	w.WriteHeader(http.StatusOK)
 }
 
