@@ -163,20 +163,17 @@ func (_ dataHandler) DELETE(w http.ResponseWriter, r *http.Request) {
 func updateCurrentMinuteData() {
 	now := time.Now()
 	minuteOfDay := now.Hour()*60 + now.Minute()
-
 	data[minuteOfDay][0] = enters
 	data[minuteOfDay][1] = exits
 
-	if minuteOfDay == minutesPerDay-1 {
-		// Save data
-		saveJSON(path.Join("data", toDataFilename(time.Now())), data)
-		log.Println("Saved data for minute", minuteOfDay)
+	// Save data
+	saveJSON(path.Join("data", toDataFilename(time.Now())), data)
+	log.Println("Saved data for minute", minuteOfDay)
 
-		// Clear data
-		for i := range data {
-			for j := range data[i] {
-				data[i][j] = 0
-			}
+	// Clear data
+	for i := range data {
+		for j := range data[i] {
+			data[i][j] = 0
 		}
 	}
 }
