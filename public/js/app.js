@@ -5,6 +5,7 @@ var state = 'simple';
 // Data
 var PPM, // People per minute
     PPH, // People per hour
+    data,
     dates,
     maxPPH = 0, // Max PPH
     minPPH = 0, // Min PPH
@@ -249,10 +250,11 @@ function fetchTimeline(direction) {
 		data: { type: 'timeline', year: date.year, month: date.month, day: date.day },
 		dataType: 'json',
 	}).done(function(data_) {
-		console.log('Loaded timeline');
+		data = data_;
 		dateIndex = tmpIndex;
 		maxPPH = 0;
 		minPPH = 99999999;
+		console.log('Loaded timeline');
 
 		// Convert data to a time-specific format
 		PPM = [];
