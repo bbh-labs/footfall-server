@@ -170,10 +170,12 @@ func updateCurrentMinuteData() {
 	saveJSON(path.Join("data", toDataFilename(time.Now())), data)
 	log.Println("Saved data for minute", minuteOfDay)
 
-	// Clear data
-	for i := range data {
-		for j := range data[i] {
-			data[i][j] = 0
+	if minuteOfDay == 24 * 60 - 1 {
+		// Clear data
+		for i := range data {
+			for j := range data[i] {
+				data[i][j] = 0
+			}
 		}
 	}
 }
