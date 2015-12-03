@@ -250,6 +250,8 @@ function fetchTimeline(direction) {
 		dataType: 'json',
 	}).done(function(data_) {
 		dateIndex = tmpIndex;
+		maxPPH = 0;
+		minPPH = 99999999;
 
 		// Convert data to a time-specific format
 		PPM = [];
