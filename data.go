@@ -32,7 +32,7 @@ var (
 )
 
 func initDataHandler() {
-	now := time.Now()
+	now := time.Now().Add(8 * time.Hour)
 	if err := loadJSON(path.Join("data", toDataFilename(now)), &data); err != nil {
 		if os.IsNotExist(err) {
 			// Ignore 'not exist' errors
@@ -59,7 +59,7 @@ func initDataHandler() {
 		<-c
 
 		// Save data
-		now := time.Now()
+		now := time.Now().Add(8 * time.Hour)
 		saveJSON(path.Join("data", toDataFilename(now)), data)
 		log.Println("Saved data for", now.Weekday(), now.Day(), now.Month(), now.Year())
 		os.Exit(0)
@@ -161,7 +161,7 @@ func (_ dataHandler) DELETE(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateCurrentMinuteData() {
-	now := time.Now()
+	now := time.Now().Add(8 * time.Hour)
 	minuteOfDay := now.Hour()*60 + now.Minute()
 	data[minuteOfDay][0] = enters
 	data[minuteOfDay][1] = exits
