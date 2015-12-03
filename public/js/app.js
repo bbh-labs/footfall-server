@@ -255,7 +255,7 @@ function fetchTimeline(direction) {
 
 		// Convert data to a time-specific format
 		PPM = [];
-		var foobar = 0;
+		var timezoneOffsetMinutes = new Date().getTimezoneOffset();
 		for (var i in data_) {
 			var count = 0, previous = 0, current = 0;
 			if (i == 0) {
@@ -265,7 +265,7 @@ function fetchTimeline(direction) {
 				current = data_[i][0] - data_[i][1];
 				count = Math.max(current - previous, 0);
 			}
-			PPM[i] = count;
+			PPM[(i + timezoneOffsetMinutes) % 1440] = count;
 		}
 
 		// Count PPH, max and min PPH
