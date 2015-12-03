@@ -249,6 +249,7 @@ function fetchTimeline(direction) {
 		data: { type: 'timeline', year: date.year, month: date.month, day: date.day },
 		dataType: 'json',
 	}).done(function(data_) {
+		console.log('Loaded timeline');
 		dateIndex = tmpIndex;
 		maxPPH = 0;
 		minPPH = 99999999;
